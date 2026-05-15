@@ -1,8 +1,9 @@
 /* ═══════════════════════════════════════════════════════
-   IoT Dashboard — JavaScript
+   IoT Smart Cart Dashboard — JavaScript
    ═══════════════════════════════════════════════════════ */
 
-const API_BASE = "http://localhost:8000";
+const PI_STATIC_IP = "10.87.49.189";
+const API_BASE = `http://${PI_STATIC_IP}:8000`;
 
 let ordersChart = null;
 let revenueChart = null;
@@ -203,7 +204,7 @@ function updateRevenueChart(stats) {
 
 function updateStockBars(products) {
   const container = document.getElementById("stock-bars");
-  const maxStock = 10; // initial stock value
+  const maxStock = 10;
 
   container.innerHTML = products.map((p) => {
     const pct = Math.round((p.stock / maxStock) * 100);
@@ -221,28 +222,81 @@ function updateStockBars(products) {
   }).join("");
 }
 
-// ── Orders Table ─────────────────────────────────────────
+// ── Orders Table (Multi-Item with Expandable Rows) ───────
 
 function updateOrdersTable(orders) {
   const tbody = document.getElementById("orders-tbody");
 
   if (orders.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" class="empty-row">No orders yet — go place some!</td></tr>';
+    tbody.innerHTML = '<tr class="order-header-row"><td colspan="6" class="empty-row">No orders yet — go place some!</td></tr>';
     return;
   }
 
-  tbody.innerHTML = orders.slice(0, 20).map((o) => {
+  let html = "";
+  orders.slice(0, 20).forEach((o) => {
     const time = new Date(o.timestamp).toLocaleString();
-    return `
-      <tr>
+    const itemCount = o.items ? o.items.length : 0;
+    const itemLabel = itemCount === 1 ? "1 item" : `${itemCount} items`;
+
+    html += `
+      <tr class="order-header-row" onclick="toggleOrderRow(${o.id})">
         <td class="order-id-cell">#${o.id}</td>
         <td>${o.customer_name}</td>
-        <td>${o.product_name}</td>
-        <td>${o.quantity}</td>
+        <td class="order-items-summary">${itemLabel}</td>
+        <td>${o.total_items || 0}</td>
         <td class="order-total-cell">$${o.total_price.toFixed(2)}</td>
         <td class="order-time-cell">${time}</td>
       </tr>`;
-  }).join("");
+
+    if (o.items && o.items.length > 0) {
+      html += `
+        <tr class="order-detail-row" id="order-detail-${o.id}" style="display:none;">
+          <td colspan="6">
+            <div class="order-detail-inner">
+              <table class="order-items-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Location</th>
+                    <th>Qty</th>
+                    <th>Unit Price</th>
+                    <th>Line Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${o.items.map((item) => `
+                    <tr>
+                      <td class="detail-product">
+                        <img src="images/${item.image}" alt="${item.product_name}" class="detail-product-img" />
+                        ${item.product_name}
+                      </td>
+                      <td class="detail-location">📍 ${item.location}</td>
+                      <td class="detail-qty">${item.quantity}</td>
+                      <td class="detail-unit">$${item.unit_price.toFixed(2)}</td>
+                      <td class="detail-line">$${item.line_total.toFixed(2)}</td>
+                    </tr>
+                  `).join("")}
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>`;
+    }
+  });
+
+  tbody.innerHTML = html;
+}
+
+function toggleOrderRow(orderId) {
+  const detailRow = document.getElementById(`order-detail-${orderId}`);
+  if (!detailRow) return;
+
+  if (detailRow.style.display === "none") {
+    detailRow.style.display = "";
+    detailRow.style.animation = "detail-expand 0.3s ease-out";
+  } else {
+    detailRow.style.display = "none";
+  }
 }
 
 // ── Init & Auto-Refresh ──────────────────────────────────
