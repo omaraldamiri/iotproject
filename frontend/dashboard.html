@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="IoT SmartOrder Dashboard — Real-time analytics and stock monitoring." />
+  <title>IoT SmartOrder — Dashboard</title>
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="navbar-brand">
+      <div class="navbar-logo">⚡</div>
+      <span class="navbar-title">IOT SMARTORDER</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="index.html" id="nav-shop">Shop</a></li>
+      <li><a href="dashboard.html" class="active" id="nav-dashboard">Dashboard</a></li>
+    </ul>
+  </nav>
+
+  <main class="page-container">
+    <header class="page-header">
+      <h1>ANALYTICS DASHBOARD</h1>
+      <p>Real-time order analytics, stock monitoring, and product insights.</p>
+    </header>
+
+    <!-- Alert Banner -->
+    <div class="alert-banner" id="alert-banner" style="display:none;">
+      <div class="alert-icon">🚨</div>
+      <div class="alert-content">
+        <strong>Stock Alert!</strong>
+        <span id="alert-message"></span>
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid" id="kpi-grid">
+      <div class="kpi-card" id="kpi-total-orders">
+        <div class="kpi-icon">📦</div>
+        <div class="kpi-data">
+          <span class="kpi-value" id="kpi-val-orders">0</span>
+          <span class="kpi-label">Total Orders</span>
+        </div>
+      </div>
+      <div class="kpi-card" id="kpi-revenue">
+        <div class="kpi-icon">💰</div>
+        <div class="kpi-data">
+          <span class="kpi-value" id="kpi-val-revenue">$0</span>
+          <span class="kpi-label">Total Revenue</span>
+        </div>
+      </div>
+      <div class="kpi-card" id="kpi-popular">
+        <div class="kpi-icon">🏆</div>
+        <div class="kpi-data">
+          <span class="kpi-value" id="kpi-val-popular">—</span>
+          <span class="kpi-label">Most Popular</span>
+        </div>
+      </div>
+      <div class="kpi-card" id="kpi-stock-status">
+        <div class="kpi-icon">📊</div>
+        <div class="kpi-data">
+          <span class="kpi-value" id="kpi-val-stock">—</span>
+          <span class="kpi-label">Stock Status</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+      <div class="chart-card" id="chart-card-orders">
+        <h3 class="chart-title">Orders by Product</h3>
+        <div class="chart-wrapper">
+          <canvas id="orders-chart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card" id="chart-card-revenue">
+        <h3 class="chart-title">Revenue by Product</h3>
+        <div class="chart-wrapper">
+          <canvas id="revenue-chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stock Levels -->
+    <div class="stock-section" id="stock-section">
+      <h3 class="section-title">Stock Levels</h3>
+      <div class="stock-bars" id="stock-bars"></div>
+    </div>
+
+    <!-- Recent Orders Table -->
+    <div class="orders-section" id="orders-section">
+      <h3 class="section-title">Recent Orders</h3>
+      <div class="table-wrapper">
+        <table class="orders-table" id="orders-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Customer</th>
+              <th>Product</th>
+              <th>Qty</th>
+              <th>Total</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody id="orders-tbody">
+            <tr><td colspan="6" class="empty-row">No orders yet — go place some!</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="auto-refresh-note" id="auto-refresh-note">
+      <span class="refresh-dot"></span> Auto-refreshes every 10 seconds
+    </div>
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
