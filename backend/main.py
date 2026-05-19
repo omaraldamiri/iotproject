@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
 from gpiozero import LED,Servo
+from time import sleep
 
 app = FastAPI(title="IoT Smart Cart System")
 
@@ -109,11 +110,10 @@ def checkout(request: CheckoutRequest):
         "timestamp": datetime.now().isoformat(),
     }
     orders.append(new_order)
-
     servo = Servo(17)
-    servo.min()
-    servo.max()
-    servo.min()
+    servo.value = 1.0   # spin forward
+    sleep(1)            # for 1 second
+    servo.value = 0     # stop
 
     return {"message": "Order placed successfully!", "order": new_order}
 
