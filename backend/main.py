@@ -111,8 +111,9 @@ def checkout(request: CheckoutRequest):
     }
     orders.append(new_order)
     servo = Servo(17)
+    sleep(3)
     servo.value = 1.0   # spin forward
-    sleep(1)            # for 1 second
+    sleep(0.5)            # for 1 second
     servo.value = 0     # stop
 
     return {"message": "Order placed successfully!", "order": new_order}
