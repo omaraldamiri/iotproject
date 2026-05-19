@@ -4,7 +4,7 @@ import CartDrawer from '../components/CartDrawer';
 import ProductCard from '../components/ProductCard';
 import { useToast } from '../components/Toast';
 
-const API_BASE = 'http://localhost:8000';
+const API_BASE = 'http://10.236.55.75:8000';
 
 function ShopPage() {
   const [products, setProducts] = useState([]);

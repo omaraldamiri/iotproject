@@ -23,7 +23,7 @@ ChartJS.register(
   Legend
 );
 
-const API_BASE = 'http://10.87.49.189:8000';
+const API_BASE = 'http://10.236.55.75:8000';
 const CHART_COLORS = ['#22d3ee', '#3b82f6', '#8b5cf6'];
 const CHART_BG = ['rgba(34,211,238,0.2)', 'rgba(59,130,246,0.2)', 'rgba(139,92,246,0.2)'];
 
