@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
+from gpiozero import LED
 
 app = FastAPI(title="IoT Smart Cart System")
 
@@ -108,6 +109,8 @@ def checkout(request: CheckoutRequest):
         "timestamp": datetime.now().isoformat(),
     }
     orders.append(new_order)
+
+    LED(15).on()
 
     return {"message": "Order placed successfully!", "order": new_order}
 
