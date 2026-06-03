@@ -40,16 +40,26 @@ servos = {
 }
 
 # ── Timing Constants ──────────────────────────────────────────────────
-TRAVEL_TIME = 1      # seconds to travel between shelves
+TRAVEL_TIME = 0.25      # seconds to travel between shelves
 WAIT_TIME   = 3      # seconds cart waits at each shelf
-PUSH_TIME   = 0.5    # seconds per item pushed
+PUSH_TIME   = 1    # seconds per item pushed
 ESP32_URL   = "http://smartcart.local"  # mDNS hostname of ESP32
+
+
+# // ── Route timing (milliseconds) ──────────────────────────────
+# const int TRAVERSE_MS       = 250;
+# const int WAIT_MS           = 3000;
+# const int EXIT_MS           = 1000;
+# const int NUM_SHELVES       = 3;
+# const int PRE_REVERSE_MS    = 5000;   // wait after route before reversing
+# const float REVERSE_STOP_CM = 7.0;    // stop reversing when this close to wall
+
 
 # ── In-memory data store ──────────────────────────────────────────────
 products = {
-    1: {"id": 1, "name": "Smart Light Bulb",   "price": 24.99, "stock": 10, "image": "smart_light_bulb.png",   "location": "aisle-A3"},
-    2: {"id": 2, "name": "Temperature Sensor", "price": 19.99, "stock": 10, "image": "temperature_sensor.png", "location": "aisle-B1"},
-    3: {"id": 3, "name": "Smart Plug",          "price": 14.99, "stock": 10, "image": "smart_plug.png",         "location": "aisle-C2"},
+    1: {"id": 1, "name": "Smart Light Bulb",   "price": 24.99, "stock": 100, "image": "smart_light_bulb.png",   "location": "aisle-A3"},
+    2: {"id": 2, "name": "Temperature Sensor", "price": 19.99, "stock": 100, "image": "temperature_sensor.png", "location": "aisle-B1"},
+    3: {"id": 3, "name": "Smart Plug",          "price": 14.99, "stock": 100, "image": "smart_plug.png",         "location": "aisle-C2"},
 }
 
 orders: list[dict] = []
