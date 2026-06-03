@@ -113,7 +113,7 @@ def run_cart_sequence(servo_schedule: dict):
         if shelf_id in servo_schedule:
             quantity = servo_schedule[shelf_id]
             push_items(shelf_id, quantity)
-            sleep(TRAVEL_TIME * WAIT_TIME + cumulative_push_time)  # Base delay + accumulated servo time
+            sleep(max(0, TRAVEL_TIME * WAIT_TIME - (quantity * PUSH_TIME) + cumulative_push_time))  # Total delay accounting for servo time
             cumulative_push_time += quantity * PUSH_TIME
         else:
             # No item here, just wait for cart's dwell time
@@ -127,7 +127,7 @@ def reset_servos():
     """Turn each servo backwards for 1 second to reset actuators to original position."""
     for shelf_id in [1, 2, 3]:
         servo = servos[shelf_id]
-        servo.value = -1.0
+        servo.value = -0.25
         sleep(1)
         servo.value = 0
 
