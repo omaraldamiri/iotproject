@@ -104,6 +104,7 @@ def run_cart_sequence(servo_schedule: dict):
     except Exception as e:
         print(f"Warning: could not reach ESP32: {e}")
 
+    cumulative_push_time = 0
     for shelf_id in [1, 2, 3]:
         # Cart is traveling to this shelf
         sleep(TRAVEL_TIME)
@@ -112,7 +113,8 @@ def run_cart_sequence(servo_schedule: dict):
         if shelf_id in servo_schedule:
             quantity = servo_schedule[shelf_id]
             push_items(shelf_id, quantity)
-            sleep((TRAVEL_TIME * WAIT_TIME) - (quantity * PUSH_TIME))  # Account for servo rotation time
+            sleep(TRAVEL_TIME * WAIT_TIME + cumulative_push_time)  # Base delay + accumulated servo time
+            cumulative_push_time += quantity * PUSH_TIME
         else:
             # No item here, just wait for cart's dwell time
             sleep(WAIT_TIME)
