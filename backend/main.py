@@ -42,7 +42,7 @@ servos = {
 # ── Timing Constants ──────────────────────────────────────────────────
 TRAVEL_TIME = 0.25      # seconds to travel between shelves
 WAIT_TIME   = 3      # seconds cart waits at each shelf
-PUSH_TIME   = 1    # seconds per item pushed
+PUSH_TIME   = 0.5   # seconds per item pushed
 ESP32_URL   = "http://smartcart.local"  # mDNS hostname of ESP32
 
 
