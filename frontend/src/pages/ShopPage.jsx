@@ -4,7 +4,7 @@ import CartDrawer from '../components/CartDrawer';
 import ProductCard from '../components/ProductCard';
 import { useToast } from '../components/Toast';
 
-const API_BASE = 'http://10.236.55.189:8000';
+const API_BASE = 'http://raspberrypi:8000';
 
 function ShopPage() {
   const [products, setProducts] = useState([]);
