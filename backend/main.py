@@ -123,6 +123,14 @@ def run_cart_sequence(servo_schedule: dict):
     sleep(5)
     print("Cart sequence complete.")
 
+def reset_servos():
+    """Turn each servo backwards for 1 second to reset actuators to original position."""
+    for shelf_id in [1, 2, 3]:
+        servo = servos[shelf_id]
+        servo.value = -1.0
+        sleep(1)
+        servo.value = 0
+
 # ── Endpoints ─────────────────────────────────────────────────────────
 @app.get("/products")
 def get_products():
@@ -262,6 +270,15 @@ def get_stats():
         "low_stock": low_stock,
         "per_product": per_product,
     }
+
+
+@app.get("/reset-servos")
+def reset_servos_endpoint():
+    """Reset all servos by turning them backwards for 1 second each."""
+    thread = threading.Thread(target=reset_servos)
+    thread.daemon = True
+    thread.start()
+    return {"message": "Servo reset sequence started"}
 
 
 # ── ESP32 / Cart Integration Endpoints ───────────────────────────────
