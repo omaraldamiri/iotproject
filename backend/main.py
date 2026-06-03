@@ -112,7 +112,7 @@ def run_cart_sequence(servo_schedule: dict):
         if shelf_id in servo_schedule:
             quantity = servo_schedule[shelf_id]
             push_items(shelf_id, quantity)
-            sleep(TRAVEL_TIME*WAIT_TIME)  # 3 seconds * 0.25 delay between servos
+            sleep((TRAVEL_TIME * WAIT_TIME) - (quantity * PUSH_TIME))  # Account for servo rotation time
         else:
             # No item here, just wait for cart's dwell time
             sleep(WAIT_TIME)
